@@ -1,7 +1,7 @@
 const Page: React.FC = () => {
   return (
     <div>
-      <h1>Home page</h1>
+      <h1>Ashish Karki&apos;s page</h1>
     </div>
   );
 };

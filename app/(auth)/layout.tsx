@@ -1,11 +1,7 @@
 import { ReactNode } from "react";
 
 const AuthLayout = ({ children }: { children: ReactNode }) => {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      {children}
-    </div>
-  );
+  return <div className="auth-layout">{children}</div>;
 };
 
 export default AuthLayout;
