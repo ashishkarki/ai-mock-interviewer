@@ -1,26 +1,44 @@
 import {
-  Form,
   FormControl,
-  FormDescription,
-  FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
-const CustomFormField = (form: any) => {
+interface FormFieldProps<T extends FieldValues> {
+  name: Path<T>;
+  control: Control<T>;
+  label: string;
+  placeholder: string;
+  type?: "text" | "email" | "password" | "file";
+}
+
+const FormField = <T extends FieldValues>({
+  name,
+  control,
+  label,
+  placeholder,
+  type = "text",
+}: FormFieldProps<T>) => {
   return (
-    <FormField
-      control={form.control}
-      name="username"
+    <Controller
+      name={name}
+      control={control}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Username</FormLabel>
+          <FormLabel className="label">{label}</FormLabel>
+
           <FormControl>
-            <Input placeholder="Enter your username" {...field} />
+            <Input
+              className="input"
+              placeholder={placeholder}
+              {...field}
+              type={type}
+            />
           </FormControl>
-          <FormDescription>This is your public display name.</FormDescription>
+
           <FormMessage />
         </FormItem>
       )}
@@ -28,4 +46,4 @@ const CustomFormField = (form: any) => {
   );
 };
 
-export default CustomFormField;
+export default FormField;

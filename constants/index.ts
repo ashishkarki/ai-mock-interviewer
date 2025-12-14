@@ -2,6 +2,7 @@
 // import { z } from "zod";
 
 export const ROUTE_MAPPINGS = {
+    Home: "/",
     SignIn: "/sign-in",
     SignUp: "/sign-up",
     SignOut: '/sign-out'

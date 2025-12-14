@@ -10,6 +10,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ROUTE_MAPPINGS } from "@/constants";
 import { toast } from "sonner";
+import FormField from "./FormField";
+import { useRouter } from "next/navigation";
 
 const authFormSchema = (type: FormType) => {
   return z.object({
@@ -21,6 +23,8 @@ const authFormSchema = (type: FormType) => {
 };
 
 const AuthForm = ({ type }: { type: FormType }) => {
+  const router = useRouter();
+
   // 1. Define your form.
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,9 +40,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       if (type === "sign-in") {
-        console.log(values.email, values.password);
+        toast.success("Account created successfully. Please sign in!");
+        router.push(ROUTE_MAPPINGS.SignIn);
       } else {
-        console.log(values.name, values.email, values.password);
+        toast.success("Signed in successfully..");
+        router.push(ROUTE_MAPPINGS.Home);
       }
     } catch (error) {
       console.error(error);
@@ -64,9 +70,31 @@ const AuthForm = ({ type }: { type: FormType }) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full space-y-6 mt-4 form"
           >
-            {!isSignInPage && <p>Name</p>}
-            <p>Email</p>
-            <p>Password</p>
+            {!isSignInPage && (
+              <FormField
+                control={form.control}
+                name="name"
+                label="Name"
+                placeholder="Enter your name"
+                type="text"
+              />
+            )}
+
+            <FormField
+              control={form.control}
+              name="email"
+              label="Email"
+              placeholder="Enter your email"
+              type="email"
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              label="Password"
+              placeholder="Enter your password"
+              type="password"
+            />
 
             <Button className="btn" type="submit">
               {isSignInPage ? "Sign In" : "Create an Account"}
@@ -74,7 +102,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           </form>
         </Form>
 
-        {/* allowing switching between sign-in and sign-up */}
+        {/* allow switching between sign-in and sign-up pages */}
         <p className="text-center">
           {isSignInPage ? "No account yet?" : "Already have an account?"}
           <Link
