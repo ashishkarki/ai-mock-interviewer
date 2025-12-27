@@ -7,7 +7,6 @@ import DisplayTechIcons from "./DisplayTechIcons";
 
 const InterviewCard: React.FC<InterviewCardProps> = ({
   interviewId,
-  userId,
   role,
   type,
   techstack,
